@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
+@section('header')
+	@include('partials.header')
+@endsection
+
 @section('main')
 @php
 $section = 'main';
-$sectionLayout = get_theme_mod('sectionLayout-'. $section, 'uk-section');
+$sectionLayout = get_theme_mod('sections-'. $section, 'uk-section');
 $sectionContainer = get_theme_mod('sectionContainer-'. $section, 'uk-container');
 @endphp
 

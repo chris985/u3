@@ -81,7 +81,7 @@ add_action('widgets_init', function () {
     'after_title'   => '</h3>'
 ];
 
-$sections = explode( ',', get_theme_mod('sectionsList') );
+$sections = explode( ',', get_theme_mod('sections') );
 foreach ($sections as $value) {
     register_sidebar([
         'name'          => __($value, 'u3'),

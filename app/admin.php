@@ -25,38 +25,17 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			[
 				'label'      => __( 'Logo', 'u3' ),
 				'section'    => 'title_tagline',
-				'settings'   => 'logo'
+				'settings'   => 'logo',
+				'description' => 'Select an image to display as the logo. Or, leave blank to print out the site title.'
 			])
 	);
 
 	// Site Layout Tab
 	$wp_customize->add_section('layout', [
 		'title' => 'Site Layout',
-		'description' => '',
+		'description' => 'On this tab you will customize how the site layout appears including margins and containers and widget positions.',
 		'priority' => 20,
 	]);
-
-// Site layout Option
-	$wp_customize->add_setting('siteLayout', [
-		'default'    => 'uk-container',
-	]);
-	$wp_customize->add_control(
-		new \WP_Customize_Control(
-			$wp_customize,
-			'siteLayout',
-			[
-				'label'      => __( 'Site Layout', 'u3' ),
-				'section'    => 'layout',
-				'settings'   => 'siteLayout',
-				'type'       => 'select',
-				'choices'    => [
-					'uk-container' => __( 'Standard (Default)' ),
-					'uk-container uk-container-small' => __( 'Small' ),
-					'uk-container uk-container-large' => __( 'Widescreen' ),
-					'uk-container uk-container-expand' => __( 'Fluid' )
-				]
-			])
-	);
 
 	// Header layout Option
 	$wp_customize->add_setting('headerLayout', [
@@ -71,6 +50,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				'section'    => 'layout',
 				'settings'   => 'headerLayout',
 				'type'       => 'select',
+				'description' => 'Choose how the header and navigation menu should be displayed.',
 				'choices'    => [
 					'0'	=> __( 'Nav Top' ),
 					'1' => __( 'Nav Right (Default)' ),
@@ -85,7 +65,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 
 	// Search Layout Option
 	$wp_customize->add_setting('searchLayout', [
-		'default'    => '0',
+		'default'    => '3',
 	]);
 	$wp_customize->add_control(
 		new \WP_Customize_Control(
@@ -96,11 +76,12 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				'section'    => 'layout',
 				'settings'   => 'searchLayout',
 				'type'       => 'select',
+				'description' => 'Choose the style of Search',
 				'choices'    => [
-					'0'	=> __( 'Box (Default)' ),
+					'0'	=> __( 'Box' ),
 					'1' => __( 'Dropdown' ),
 					'2' => __( 'Icon Fullscreen' ),
-					'3' => __( 'None' )
+					'3' => __( 'None (Default)' )
 				]
 			])
 	);
@@ -118,6 +99,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				'section'    => 'layout',
 				'settings'   => 'mainLayout',
 				'type'       => 'select',
+				'description' => 'Choose the layout for the main content area and sidebars. Unused sidebars will collapse.',
 				'choices'    => [
 					'0'	=> __( 'Secondary, Content, Primary, Tertiary (Default)' ),
 					'1' => __( 'Primary, Secondary, Content, Tertiary' ),
@@ -126,16 +108,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				]
 			])
 	);
-	$wp_customize->add_control( 'button_id', array(
-    'type' => 'button',
-    'settings' => array(), // 👈
-    'priority' => 10,
-    'section' => 'layout',
-    'input_attrs' => array(
-        'value' => __( 'Edit Pages', 'textdomain' ), // 👈
-        'class' => 'button button-primary', // 👈
-    ),
-) );
+
 	// Footer Branding Option
 	$wp_customize->add_setting( 'footerBranding', [
 		'default' => '1'
@@ -149,6 +122,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				'section'    => 'layout',
 				'settings'   => 'footerBranding',
 				'type'       => 'select',
+				'description' => 'The footer branding helps support the template development. But you are free to disable it.',
 				'choices'    => [
 					'0'	=> __( 'No' ),
 					'1' => __( 'Yes (Default)' ),
@@ -156,106 +130,126 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			])
 	);
 
-/*
-	// Site Style
-	$wp_customize->add_section('themestyle', [
-		'title' => 'Site Style',
-		'description' => '',
-		'priority' => 30,
+	// Site layout Option
+	$wp_customize->add_setting('siteLayout', [
+		'default'    => 'custom'
 	]);
-
-	// Style Options 
-	$wp_customize->add_setting('logo2');
 	$wp_customize->add_control(
-		new \WP_Customize_Image_Control(
+		new \WP_Customize_Control(
 			$wp_customize,
-			'logo2',
+			'siteLayout',
 			[
-				'label'      => __( 'Site Logo', 'starcresc' ),
-				'section'    => 'themestyle',
-				'settings'   => 'logo2'
+				'label'      => __( 'Site Layout', 'u3' ),
+				'section'    => 'layout',
+				'settings'   => 'siteLayout',
+				'type'       => 'select',
+				'description' => 'Choose the layout of the site, or choose "Custom..." to be able to add your own custom widgets.',
+				'choices'    => [
+					'u3' => __( 'U3' ),
+					'yt' => __( 'YooTheme' ),
+					'rt' => __( 'Gantry' ),
+					'custom' => __( 'Custom (Default)' )
+				]
 			])
-		); */
+	);
 
-	// Header layout Option
-		$wp_customize->add_setting('sectionsList', [
-			'default'    => 'header,top,bottom,footer',
+	// Custom Widgets
+	$wp_customize->add_setting('sections', [
+		'default' => 'header,top,main,footer,copyright',
+		'sanitize_callback' => 'u3_validate_sections'
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'sections',
+			[
+				'label'      => __( 'Sections List', 'u3' ),
+				'section'    => 'layout',
+				'settings'   => 'sections',
+				'description' => 'Note, when adding or removing widget positions, you will need to Publish and then Refresh the customizer completely for layout options.<br /><br />Default: header,top,main,footer,copyright<br />YooTheme Copy: toolbar,header,top-a,top-b,main-top,main,main-bottom,bottom-a,bottom-b,copyright',
+				'type'       => 'textarea',
+				'transport' => 'refresh',
+			])
+	);
+
+// NEW
+	$sections = explode( ',', get_theme_mod('sections') );
+	foreach ($sections as $value) {
+		$wp_customize->add_setting('sectionContainer-' . $value, [
+			'default'    => 'uk-container',
 		]);
 		$wp_customize->add_control(
 			new \WP_Customize_Control(
 				$wp_customize,
-				'sectionsList',
+				'sectionContainer-' . $value,
 				[
-					'label'      => __( 'Sections List', 'u3' ),
+					'label'      => __( $value. ' Container', 'u3' ),
 					'section'    => 'layout',
-					'settings'   => 'sectionsList',
-					'description' => 'Note, when adding or removing widget positions, you will need to save and then exit the customizer completely for them to take effect.',
-					'type'       => 'textarea',
-					'transport' => 'refresh',
+					'settings'   => 'sectionContainer-' .$value,
+					'type'       => 'select',
+					'choices'    => [
+						'uk-container uk-container-expand uk-padding-remove' => __( 'None' ),
+						'uk-container uk-container-small' => __( 'Small' ),
+						'uk-container' => __( 'Standard (Default)' ),
+						'uk-container uk-container-large' => __( 'Widescreen' ),
+						'uk-container uk-container-expand' => __( 'Fluid' ),
+					]
 				])
 		);
-// NEW
-		$sections = explode( ',', get_theme_mod('sectionsList') );
+		$wp_customize->add_setting('sectionLayout-' . $value, [
+			'default'    => 'uk-section',
+		]);
+		$wp_customize->add_control(
+			new \WP_Customize_Control(
+				$wp_customize,
+				'sectionLayout-' . $value,
+				[
+					'label'      => __( $value. ' Layout', 'u3' ),
+					'section'    => 'layout',
+					'settings'   => 'sectionLayout-' .$value,
+					'type'       => 'select',
+					'choices'    => [
+						'uk-section uk-padding-remove'	=> __( 'None' ),
+						'uk-section uk-section-small' => __( 'Small' ),
+						'uk-section' => __( 'Normal (Default)' ),
+						'uk-section uk-section-large' => __( 'Large' )
+					]
+				])
+		);
+	}
+	// Site Style Tab
+	$wp_customize->add_section('sitestyle', [
+		'title' => 'Site Style',
+		'description' => 'On this tab you will customize how individual site elements stylings will appear.',
+		'priority' => 30,
+	]);
 
-		foreach ($sections as $value) {
-			$wp_customize->add_setting('sectionLayout-' . $value, [
-				'default'    => 'uk-section',
-			]);
-			$wp_customize->add_control(
-				new \WP_Customize_Control(
-					$wp_customize,
-					'sectionLayout-' . $value,
-					[
-						'label'      => __( $value. ' Layout', 'u3' ),
-						'section'    => 'layout',
-						'settings'   => 'sectionLayout-' .$value,
-						'type'       => 'select',
-						'choices'    => [
-							'uk-section uk-padding-remove'	=> __( 'None' ),
-							'uk-section uk-section-small' => __( 'Small' ),
-							'uk-section' => __( 'Normal (Default)' ),
-							'uk-section uk-section-large' => __( 'Large' )
-						]
-					])
-			);
-			$wp_customize->add_setting('sectionContainer-' . $value, [
-				'default'    => 'uk-container',
-			]);
-			$wp_customize->add_control(
-				new \WP_Customize_Control(
-					$wp_customize,
-					'sectionContainer-' . $value,
-					[
-						'label'      => __( $value. ' Container', 'u3' ),
-						'section'    => 'layout',
-						'settings'   => 'sectionContainer-' .$value,
-						'type'       => 'select',
-						'choices'    => [
-							'uk-container uk-container-expand uk-padding-remove' => __( 'None' ),
-							'uk-container uk-container-small' => __( 'Small' ),
-							'uk-container' => __( 'Standard (Default)' ),
-							'uk-container uk-container-large' => __( 'Widescreen' ),
-							'uk-container uk-container-expand' => __( 'Fluid' ),
-						]
-					])
-			);
-		}
-
-
-
-
-//
-
-
-
-
-
-
-
-
-
-	});
-
+	$sections = explode( ',', get_theme_mod('sections') );
+	foreach ($sections as $value) {
+		$wp_customize->add_setting('sectionStyle-' . $value, [
+			'default'    => 'uk-section-default',
+		]);
+		$wp_customize->add_control(
+			new \WP_Customize_Control(
+				$wp_customize,
+				'sectionStyle-' . $value,
+				[
+					'label'      => __( $value. ' Style', 'u3' ),
+					'section'    => 'sitestyle',
+					'settings'   => 'sectionStyle-' .$value,
+					'type'       => 'select',
+					'choices'    => [
+						'' => __( 'None' ),
+						' uk-section-muted' => __( 'Muted' ),
+						' uk-section-default' => __( 'Default' ),
+						' uk-section-primary' => __( 'Primary' ),
+						' uk-section-secondary' => __( 'Secondary' ),
+						' uk-section-tertiary' => __( 'Tertiary' ),
+					]
+				])
+		);
+	}
+});
 
 /**
  * Customizer JS

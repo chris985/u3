@@ -8,7 +8,7 @@ Introducting U3, named after the never released yoo_master3, a minimalistic temp
 While Yootheme probably dislikes this project, as UIkit itself is released under the MIT license, and no parts of the Yootheme Pro or even the yoo_master template are used in its creation, the U3 project should be kosher.
 
 ## What's New?
-The latest build overhauls the widget settings to be array based for faster and more efficient processing as well as the ability to add your own widgets. This is extremely alpha. You can play with the options under "Layouts". You must add your list, comma-seperated, in the order you want the items to appear on the page. Then save and refresh the customizer screen to get two additional options for the amount of spacing and container associated with that widget. Early testing has proven it safe and functional at the minimum, although it needs extensive testing as well as some polishing.
+Started adding wordpress shortcodes for UIKit functionality within posts. Grid, col, and card added officially.
 
 ## Features
 * A smart, nimble, flexible, and feature-packed template framework

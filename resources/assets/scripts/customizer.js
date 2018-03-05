@@ -23,9 +23,16 @@ wp.customize.bind( 'ready', function() {
 	}
 } );
 
-wp.customize.control( 'button_id', function( control ) {
-    control.container.find( '.button' ).on( 'click', function() {
-    	        console.info( 'Button was clicked.' );
-        alert( "Button was clicked." );
-    } );
+var control = new wp.customize.Control( 'button_id', {
+    type: 'button',
+    settings: [],
+    section: 'section_id',
+    inputAttrs: {
+        value: 'Edit Pages',
+        'class': 'button button-primary'
+    }
+} );
+wp.customize.control.add( control );
+control.container.find( '.button' ).on( 'click', function() {
+    alert( "Button was clicked" );
 } );

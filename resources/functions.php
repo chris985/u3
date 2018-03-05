@@ -83,7 +83,42 @@ Container::getInstance()
 	]);
 }, true);
 
-/* Clear the Cache
+/* Validate Admin Settings List */
+function u3_validate_sections( $value ) {
+    $can_validate = method_exists( 'WP_Customize_Setting', 'validate' );
+    $sections = explode( ',', $value ); // Turn into Strings
+    $sections = array_map('strtolower', $sections);
+    if (!in_array("header", $sections)) {
+        return $can_validate ? new WP_Error( 'nan', __( 'You must include a header. <a href="http://www.google.com" target="_new">?</a>' ) ) : null;
+        exit();
+    }
+    if (!in_array("main", $sections)) {
+        return $can_validate ? new WP_Error( 'nan', __( 'You must include a main content position. <a href="http://www.google.com" target="_new">?</a>' ) ) : null;
+        exit();
+    }
+    if (!in_array("footer", $sections)) {
+        return $can_validate ? new WP_Error( 'nan', __( 'You must include a footer. <a href="http://www.google.com" target="_new">?</a>' ) ) : null;
+        exit();
+    }
+    if (in_array("nav", $sections) || in_array("menu", $sections)){
+        return $can_validate ? new WP_Error( 'nan', __( 'That position is not allowed. <a href="http://www.google.com" target="_new">?</a>' ) ) : null;
+        exit();
+    }
+    if (in_array("sidebar", $sections) || in_array("aside", $sections) || in_array("primary", $sections) || in_array("secondary", $sections) || in_array("tertiary", $sections)){
+        return $can_validate ? new WP_Error( 'nan', __( 'That position is not allowed. <a href="http://www.google.com" target="_new">?</a>' ) ) : null;
+        exit();
+    }
+    if (in_array("", $sections) || in_array(" ", $sections)) {
+        return $can_validate ? new WP_Error( 'nan', __( 'Remove any spaces and ensure there is no trailing comma. <a href="http://www.google.com" target="_new">?</a>')) : null;
+        exit();
+    }
+    $sections = preg_replace('/[^A-Za-z0-9\. -]/', '', $sections);
+    $sections = preg_replace('/  */', '', $sections);
+    $value = implode( ',', $sections );
+    return $value;
+}
+
+/*
 function u3_clearcache() {
 	$upload_dir = wp_upload_dir();
     $files = glob($upload_dir . 'cache/*'); // get all file names
@@ -92,26 +127,183 @@ function u3_clearcache() {
     		unlink($file); // delete file
     	}
     }
+    echo '<script type="text/javascript">alert("Cache cleared!");</script>';
 }
-do_action( 'customize_save_after', 'u3_clearcache' );
+add_action( 'customize_save_after', 'u3_clearcache' );
 */
 
-/* Custom Wordpress Shortcodes */
-function u3_grid($atts, $content = "&nbsp;") {
+/* Custom Wordpress Shortcodes 
+function u3_grid($atts, $content =NULL) {
+     extract( shortcode_atts( array(
+        'gutter' => false,
+        ), $atts) );
+
 	return '<div class="uk-grid-match uk-child-width-expand@m" uk-grid>' . do_shortcode($content) . '</div>';
 }
-add_shortcode('grid', 'u3_grid');
-function u3_col($atts, $content = "&nbsp;") {
-	return '<div class="uk-width-expand@m">' . do_shortcode($content) . '</div>';
+add_shortcode('grid', 'u3_grid'); */
+
+/* Grid */
+function u3_grid_shortcode($atts,$content=NULL) {
+    extract( shortcode_atts( array(
+        'gutter' => '',
+        'style' => '',
+        'padding' => '0'
+    ), $atts) );
+    $output  = '<div class="uk-grid uk-grid-match uk-child-width-expand@m';
+    if(in_array($gutter,array('small','medium','large','collapse','divider'))) {
+        $output .= ' uk-grid-' . $gutter;
+    }
+    if(in_array($style,array('muted','primary','secondary','tertiary'))) {
+        $output .= ' uk-background-' . $style;
+    }
+    if(in_array($padding,array('small','large','default'))) {
+        $output .= ' uk-padding uk-padding-' . $padding;
+    }
+    $output .= '" uk-grid>';
+    $output .= do_shortcode($content);
+    $output .= '</div>';
+    $output = str_replace(array('<br />','<p>','</p>','<br>'),'',$output);
+    return $output;
 }
-add_shortcode('col', 'u3_col');
-function u3_icon($atts, $content = "&nbsp;") {
-	return '<div>' . $content . '</div>';
+add_shortcode('grid','u3_grid_shortcode');
+
+/* Column */
+function u3_col_shortcode($atts,$content=NULL) {
+    extract( shortcode_atts( array(
+        'width' => 'auto@m',
+    ), $atts) );
+    $output  = '<div class="uk-width';
+    if(in_array($width,array('1-1','1-2','1-3','1-4','1-5','1-6','2-2','2-3','2-4','2-5','2-6','3-3','3-4','3-5','3-6','4-4','4-5','4-6','5-5','5-6'))) {
+        $output .= '-' . $width . '@m';
+    } else {
+        $output .= '-expand@m';
+    }
+    $output .= '">';
+    $output .= do_shortcode($content);
+    $output .= '</div>';
+    $output = str_replace(array('<br />','<p>','</p>','<br>'),'',$output);
+    return $output;
 }
-add_shortcode('icon', 'u3_icon');
+add_shortcode('col','u3_col_shortcode');
+
+/* Card */
+function u3_card_shortcode($atts,$content=NULL) {
+    extract( shortcode_atts( array(
+        'body' => '0',
+        'style' => '',
+        'hover' => '0',
+        'size' => '',
+        'header' => '',
+        'meta' => '',
+        'footer' => '',
+        'primary' => '',
+        'link1' => '',
+        'secondary' => '',
+        'link2' => ''
+    ), $atts) );
+    $output  = '<div class="uk-card';
+    if(in_array($style,array('default','primary','secondary','tertiary'))) {
+        $output .= ' uk-card-' . $style;
+    }
+    if( $hover == 1) {
+        $output .= ' uk-card-hover';
+    }
+    if(in_array($size,array('small','large'))) {
+        $output .= ' uk-card-' . $size;
+    }
+    $output .= '">';
+    if( $header != null) {
+        $output .= '<div class="uk-card-header"><h3 class="uk-card-title uk-margin-remove-bottom">';
+        $output .= $header;
+        $output .= '</h3>';
+    }
+    if( !empty($meta)) {
+       $output .= '<p class="uk-text-meta uk-margin-remove-top">' . $meta . '</p>';
+    }
+    if( !empty($header)) {
+    $output .= '</div>';
+    }
+    if( $body == 1) {
+        $output .= '<div class="uk-card-body">';
+    }
+    $output .= do_shortcode($content);
+    if( $body == 1) {
+        $output .= '</div>';
+    }
+    if( !empty($footer) || !empty($primary) || !empty($secondary)) {
+        $output .= '<div class="uk-card-footer">';
+        if( !empty($footer)) {
+           $output .= $footer; 
+        }
+        if( !empty($primary) || !empty($secondary)) {
+        $output .= '<p>';
+        }
+        if( !empty($primary) && !empty($link1)) {
+            $output .= '<a href="';
+            $output .= $link1;
+            $output .= '" class="uk-button uk-button-primary uk-margin-right">'. $primary . '</a>';
+        }
+        if( !empty($secondary) && !empty($link2)) {
+            $output .= '<a href="';
+            $output .= $link2;
+            $output .= '" class="uk-button uk-button-link">'. $secondary . '</a>';
+        }
+        if( !empty($primary) || !empty($secondary)) {
+            $output .= '</p>';
+        }
+        $output .= '</div>';
+    }
+    $output .= '</div>';
+    return $output;
+}
+add_shortcode('card','u3_card_shortcode');
+
+function u3_cardheader_shortcode($atts,$content=NULL) {
+    extract( shortcode_atts( array(
+
+    ), $atts) );
+    $output  = '<div class="uk-grid uk-grid-match uk-child-width-expand@m';
+    if(in_array($gutter,array('small','medium','large','collapse','divider'))) {
+        $output .= ' uk-grid-' . $gutter;
+    }
+    if(in_array($style,array('muted','primary','secondary','tertiary'))) {
+        $output .= ' uk-background-' . $style;
+    }
+    if(in_array($padding,array('small','large','default'))) {
+        $output .= ' uk-padding uk-padding-' . $padding;
+    }
+    $output .= '" uk-grid>';
+    $output .= do_shortcode($content);
+    $output .= '</div>';
+    $output = str_replace(array('<br />','<p>','</p>','<br>'),'',$output);
+    return $output;
+}
+add_shortcode('grid','u3_grid_shortcode');
+
+/**
 
 /* <!-- --> */
-
+/**
+                Button
+                **/
+                function air_button_shortcode($atts,$content=NULL) {
+                    extract( shortcode_atts( array(
+                        'size'                      => false,
+                        'style'                    => false,
+                        'link'                       => '#',
+                        'target'  => false
+                    ), $atts) );
+                # Set classes
+                    $classes = 'button';
+                    if($size) { $classes .= ' '.$size; }
+                    if($style) { $classes .= ' '.$style; }
+                    $target = $target?' target="'.$target.'"':'';
+                # Button
+                    $output = '<p><a href="'.$link.'" class="'.$classes.'"'.$target.'>'.$content.'</a></p>';
+                    return $output;
+                }
+                add_shortcode('button','air_button_shortcode');
+/**
 /* List*/ 
 function u3_list_sc($atts,$content=NULL) {
 	extract( shortcode_atts( array(
@@ -128,6 +320,7 @@ function u3_li_sc($atts,$content=NULL) {
 	return $output;
 }
 add_shortcode('li','sc_li_sc');
+
 /**
                 Alert
                 **/
@@ -166,7 +359,7 @@ add_shortcode('li','sc_li_sc');
                 add_shortcode('acc','air_acc_shortcode');
 /**
                 Button
-                **/
+                
                 function air_button_shortcode($atts,$content=NULL) {
                 	extract( shortcode_atts( array(
                 		'size'                      => false,
@@ -184,6 +377,7 @@ add_shortcode('li','sc_li_sc');
                 	return $output;
                 }
                 add_shortcode('button','air_button_shortcode');
+                */
 /**
                 Column
                 **/
