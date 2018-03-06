@@ -1,5 +1,5 @@
 <?php if ( is_active_sidebar( $sidebar )) { ?>
-<aside id="{{ $sidebar }}" class="uk-width-1-4@m">
+<aside id="{{ $sidebar }}" class="">
 	@php(dynamic_sidebar( $sidebar ))
 </aside>
 <?php } ?>

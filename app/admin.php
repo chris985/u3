@@ -39,7 +39,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 
 	// Header layout Option
 	$wp_customize->add_setting('headerLayout', [
-		'default'    => '1',
+		'default'    => '2',
 	]);
 	$wp_customize->add_control(
 		new \WP_Customize_Control(
@@ -52,13 +52,13 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				'type'       => 'select',
 				'description' => 'Choose how the header and navigation menu should be displayed.',
 				'choices'    => [
-					'0'	=> __( 'Nav Top' ),
-					'1' => __( 'Nav Right (Default)' ),
-					'2' => __( 'Nav Bottom' ),
-					'3' => __( 'Nav Left' ),
-					'4' => __( 'Nav Only' ),
-					'5' => __( 'Logo Only' ),
-					'6' => __( 'None' )
+					'0' => __( 'None' ),
+					'1'	=> __( 'Nav Top' ),
+					'2' => __( 'Nav Right (Default)' ),
+					'3' => __( 'Nav Bottom' ),
+					'4' => __( 'Nav Left' ),
+					'5' => __( 'Nav Only' ),
+					'6' => __( 'Logo Only' )
 				]
 			])
 	);
@@ -87,7 +87,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 	);
 
 	// Content Layout Option
-	$wp_customize->add_setting('mainLayout', [
+	$wp_customize->add_setting('contentLayout', [
 		'default'    => '0',
 	]);
 	$wp_customize->add_control(
@@ -97,7 +97,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			[
 				'label'      => __( 'Content Layout', 'u3' ),
 				'section'    => 'layout',
-				'settings'   => 'mainLayout',
+				'settings'   => 'contentLayout',
 				'type'       => 'select',
 				'description' => 'Choose the layout for the main content area and sidebars. Unused sidebars will collapse.',
 				'choices'    => [
@@ -155,7 +155,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 
 	// Custom Widgets
 	$wp_customize->add_setting('sections', [
-		'default' => 'header,top,main,footer,copyright',
+		'default' => 'Header,Top,Main,Footer,Copyright',
 		'sanitize_callback' => 'u3_validate_sections'
 	]);
 	$wp_customize->add_control(
@@ -183,7 +183,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				$wp_customize,
 				'sectionContainer-' . $value,
 				[
-					'label'      => __( $value. ' Container', 'u3' ),
+					'label'      => __( ucfirst($value). ' Container', 'u3' ),
 					'section'    => 'layout',
 					'settings'   => 'sectionContainer-' .$value,
 					'type'       => 'select',
@@ -204,7 +204,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				$wp_customize,
 				'sectionLayout-' . $value,
 				[
-					'label'      => __( $value. ' Layout', 'u3' ),
+					'label'      => __( ucfirst($value). ' Layout', 'u3' ),
 					'section'    => 'layout',
 					'settings'   => 'sectionLayout-' .$value,
 					'type'       => 'select',
@@ -227,14 +227,14 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 	$sections = explode( ',', get_theme_mod('sections') );
 	foreach ($sections as $value) {
 		$wp_customize->add_setting('sectionStyle-' . $value, [
-			'default'    => 'uk-section-default',
+			'default'    => ' uk-section-default',
 		]);
 		$wp_customize->add_control(
 			new \WP_Customize_Control(
 				$wp_customize,
 				'sectionStyle-' . $value,
 				[
-					'label'      => __( $value. ' Style', 'u3' ),
+					'label'      => __( ucfirst($value). ' Style', 'u3' ),
 					'section'    => 'sitestyle',
 					'settings'   => 'sectionStyle-' .$value,
 					'type'       => 'select',

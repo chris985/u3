@@ -88,7 +88,18 @@ foreach ($sections as $value) {
         'id'            => $value
     ] + $config);
 }
-
+    register_sidebar([
+        'name'          => __('Primary Sidebar', 'u3'),
+        'id'            => 'primary'
+    ] + $config);
+    register_sidebar([
+        'name'          => __('Secondary Sidebar', 'u3'),
+        'id'            => 'secondary'
+    ] + $config);
+    register_sidebar([
+        'name'          => __('Tertiary Sidebar', 'u3'),
+        'id'            => 'tertiary'
+    ] + $config);
 /*
     register_sidebar([
         'name'          => __('Primary', 'u3'),

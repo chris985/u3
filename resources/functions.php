@@ -77,17 +77,17 @@ array_map(
 Container::getInstance()
 ->bindIf('config', function () {
 	return new Config([
-		'assets' => require dirname(__DIR__).'/config/assets.php',
-		'theme' => require dirname(__DIR__).'/config/theme.php',
-		'view' => require dirname(__DIR__).'/config/view.php',
+		'assets' => require dirname(__DIR__).'/app/config/assets.php',
+		'theme' => require dirname(__DIR__).'/app/config/theme.php',
+		'view' => require dirname(__DIR__).'/app/config/view.php',
 	]);
 }, true);
 
-/* Validate Admin Settings List */
+/* Validate Admin Sections List */
 function u3_validate_sections( $value ) {
     $can_validate = method_exists( 'WP_Customize_Setting', 'validate' );
     $sections = explode( ',', $value ); // Turn into Strings
-    $sections = array_map('strtolower', $sections);
+    $sections = array_map('strtolower', $sections); // Lowercase
     if (!in_array("header", $sections)) {
         return $can_validate ? new WP_Error( 'nan', __( 'You must include a header. <a href="http://www.google.com" target="_new">?</a>' ) ) : null;
         exit();
@@ -117,7 +117,27 @@ function u3_validate_sections( $value ) {
     $value = implode( ',', $sections );
     return $value;
 }
-
+function u3_theme_customizer_tooltips() {
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        wp.customize.bind('ready', function() {
+            wp.customize.control.each(function(ctrl, i) {
+                var description = ctrl.container.find('.customize-control-description');
+                if(description.length) {
+                    var title = ctrl.container.find('.customize-control-title');
+                    var tooltip = description.text();
+                    description.remove();
+                    title.append(' <i class="dashicons dashicons-editor-help" style="vertical-align: text-bottom;" title="'+tooltip+'"></i>');
+                }
+            });
+        });
+    });
+    </script>
+    <?php
+}
+ 
+add_action('customize_controls_print_scripts', 'u3_theme_customizer_tooltips');
 /*
 function u3_clearcache() {
 	$upload_dir = wp_upload_dir();
