@@ -1,4 +1,4 @@
-# [Changelog)](#changelog)
+# [Changelog](#changelog)
 ## What's New
 Changed around the file structure a bit and started normalizing things throughout.
 

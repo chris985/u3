@@ -1,4 +1,4 @@
-# [Installation)](#installation)
+# [Installation](#installation)
 Simply upload the `u3` folder to `wp-content/themes/`, or wherever your themes are installed within Wordpress. Open `resources/style.css` and customize with your own information. (This is equivalent to the default Wordpress `style.css`). Then follow Sage installation steps: 
 * Run `yarn` from the theme directory to install dependencies
 * Update `resources/assets/config.json` settings: `devUrl` should reflect your local development hostname `publicPath` should reflect your WordPress folder structure (/wp-content/themes/sage for non-Bedrock installs)

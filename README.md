@@ -9,7 +9,7 @@ While Yootheme probably dislikes this project, as UIkit itself is released under
 
 ## What's New?
 Changed around the file structure a bit and started normalizing things throughout.
-* For everything that's new, check the [CHANGELOG.MD](CHANGELOG.md) for the complete [Changelog)](CHANGELOG.md#changelog) and [Roadmap](CHANGELOG.md#roadmap).
+* For everything that's new, check the [CHANGELOG.MD](CHANGELOG.md) for the complete [Changelog](CHANGELOG.md#changelog) and [Roadmap](CHANGELOG.md#roadmap).
 
 ## Features
 Some of these features may be planned or in-development at this time.
@@ -28,9 +28,9 @@ See [INSTALLATION.md](INSTALLATION.md)
 Please see [Frequently Asked Questions (FAQs)](INSTALLATION.md#faq) for common questions. If it isn't answered there, use Github to report any issues or contribute to the project yourself with bugfixes or new features. I am a newbie and learning as I go. I saw the need for this personally and am releasing it freely for anyone that can use it or wants to help the project and build upon it.
 
 ## Credits
-See [LICENSE.MD](LICENSE.MD) for a full list of [Credits](LICENSE.md#credits) and [Licenses)](LICENSE.md#licenses).
-* [Christopher Martone](http://christophermartone.com)
-* [Sage Template Starter](https://roots.io/sage/)
-* [Laravel Blade](https://laravel.com/docs/master/blade)
-* [UIKit](https://getuikit.com/)
-* [YooTheme](https://yootheme.com/)
+See [LICENSE.MD](LICENSE.md) for a full list of [Credits](LICENSE.md#credits) and [Licenses)](LICENSE.md#licenses).
+* [Christopher Martone - http://christophermartone.com](http://christophermartone.com)
+* [Sage Template Starter - https://roots.io/sage](https://roots.io/sage/)
+* [Laravel Blade - https://laravel.com/docs/master/blade](https://laravel.com/docs/master/blade)
+* [UIKit - https://getuikit.com](https://getuikit.com/)
+* [YooTheme - https://yootheme.com](https://yootheme.com/)
