@@ -7,3 +7,5 @@ vendor
 vendor/*
 .cache-loader
 .cache-loader/*
+package-lock.json
+composer.lock
