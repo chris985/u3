@@ -84,7 +84,7 @@ add_action('widgets_init', function () {
 $sections = explode( ',', get_theme_mod('sections') );
 foreach ($sections as $value) {
     register_sidebar([
-        'name'          => __($value, 'u3'),
+        'name'          => __(ucfirst($value), 'u3'),
         'id'            => $value
     ] + $config);
 }

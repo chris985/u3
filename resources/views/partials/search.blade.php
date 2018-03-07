@@ -1,10 +1,10 @@
 @php
-$searchLayout = get_theme_mod('searchLayout');
+$searchStyle = get_theme_mod('searchStyle');
 @endphp
 
-@if ($searchLayout == 3)
+@if ($searchStyle == 3)
 
-@elseif ($searchLayout == 2)
+@elseif ($searchStyle == 2)
 <a class="uk-navbar-toggle" href="#modal-full" uk-search-icon uk-toggle></a>
 <div id="modal-full" class="uk-modal-full uk-modal" uk-modal>
 	<div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
@@ -14,7 +14,7 @@ $searchLayout = get_theme_mod('searchLayout');
 		</form>
 	</div>
 </div>
-@elseif ($searchLayout == 1)
+@elseif ($searchStyle == 1)
 <a class="uk-navbar-toggle" href="#" uk-search-icon></a>
 <div class="uk-navbar-dropdown" uk-drop="mode: click; cls-drop: uk-navbar-dropdown; boundary: !nav">
 	<div class="uk-grid-small uk-flex-middle" uk-grid>

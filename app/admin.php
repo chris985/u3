@@ -30,6 +30,27 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			])
 	);
 
+	// Footer Branding Option
+	$wp_customize->add_setting( 'footerBranding', [
+		'default' => '1'
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'footerBranding',
+			[
+				'label'      => __( 'Footer Branding', 'u3' ),
+				'section'    => 'title_tagline',
+				'settings'   => 'footerBranding',
+				'type'       => 'select',
+				'description' => 'The footer branding helps support the template development. But you are free to disable it.',
+				'choices'    => [
+					'0'	=> __( 'No' ),
+					'1' => __( 'Yes (Default)' ),
+				]
+			])
+	);
+
 	// Site Layout Tab
 	$wp_customize->add_section('layout', [
 		'title' => 'Site Layout',
@@ -63,29 +84,6 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			])
 	);
 
-	// Search Layout Option
-	$wp_customize->add_setting('searchLayout', [
-		'default'    => '3',
-	]);
-	$wp_customize->add_control(
-		new \WP_Customize_Control(
-			$wp_customize,
-			'searchLayout',
-			[
-				'label'      => __( 'Search Layout', 'u3' ),
-				'section'    => 'layout',
-				'settings'   => 'searchLayout',
-				'type'       => 'select',
-				'description' => 'Choose the style of Search',
-				'choices'    => [
-					'0'	=> __( 'Box' ),
-					'1' => __( 'Dropdown' ),
-					'2' => __( 'Icon Fullscreen' ),
-					'3' => __( 'None (Default)' )
-				]
-			])
-	);
-
 	// Content Layout Option
 	$wp_customize->add_setting('contentLayout', [
 		'default'    => '0',
@@ -109,23 +107,76 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			])
 	);
 
-	// Footer Branding Option
-	$wp_customize->add_setting( 'footerBranding', [
-		'default' => '1'
+	// Sidebar Widths
+	$wp_customize->add_setting('primaryWidth', [
+		'default'    => 'uk-width-1-3@m',
 	]);
 	$wp_customize->add_control(
 		new \WP_Customize_Control(
 			$wp_customize,
-			'footerBranding',
+			'primaryWidth',
 			[
-				'label'      => __( 'Footer Branding', 'u3' ),
+				'label'      => __( 'Primary Width', 'u3' ),
 				'section'    => 'layout',
-				'settings'   => 'footerBranding',
+				'settings'   => 'primaryWidth',
 				'type'       => 'select',
-				'description' => 'The footer branding helps support the template development. But you are free to disable it.',
+				'description' => 'Width of the Primary Sidebar.',
 				'choices'    => [
-					'0'	=> __( 'No' ),
-					'1' => __( 'Yes (Default)' ),
+					'uk-width-3-4@m'	=> __( 'Three Quarters' ),
+					'uk-width-2-3@m'	=> __( 'Two Thirds' ),
+					'uk-width-1-2@m'	=> __( 'One Half' ),
+					'uk-width-1-3@m'	=> __( 'One Third (Default)' ),
+					'uk-width-1-4@m' => __( 'One Fourth' ),
+					'uk-width-1-5@m' => __( 'One Fifth' ),
+					'uk-width-1-6@m' => __( 'One Sixth' )
+				]
+			])
+	);
+	$wp_customize->add_setting('secondaryWidth', [
+		'default'    => 'uk-width-1-3@m',
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'secondaryWidth',
+			[
+				'label'      => __( 'Secondary Width', 'u3' ),
+				'section'    => 'layout',
+				'settings'   => 'secondaryWidth',
+				'type'       => 'select',
+				'description' => 'Width of the Secondary Sidebar.',
+				'choices'    => [
+					'uk-width-3-4@m'	=> __( 'Three Quarters' ),
+					'uk-width-2-3@m'	=> __( 'Two Thirds' ),
+					'uk-width-1-2@m'	=> __( 'One Half' ),
+					'uk-width-1-3@m'	=> __( 'One Third (Default)' ),
+					'uk-width-1-4@m' => __( 'One Fourth' ),
+					'uk-width-1-5@m' => __( 'One Fifth' ),
+					'uk-width-1-6@m' => __( 'One Sixth' )
+				]
+			])
+	);
+	$wp_customize->add_setting('tertiaryWidth', [
+		'default'    => 'uk-width-1-3@m',
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'tertiaryWidth',
+			[
+				'label'      => __( 'Tertiary Width', 'u3' ),
+				'section'    => 'layout',
+				'settings'   => 'tertiaryWidth',
+				'type'       => 'select',
+				'description' => 'Width of the Tertiary Sidebar.',
+				'choices'    => [
+					'uk-width-3-4@m'	=> __( 'Three Quarters' ),
+					'uk-width-2-3@m'	=> __( 'Two Thirds' ),
+					'uk-width-1-2@m'	=> __( 'One Half' ),
+					'uk-width-1-3@m'	=> __( 'One Third (Default)' ),
+					'uk-width-1-4@m' => __( 'One Fourth' ),
+					'uk-width-1-5@m' => __( 'One Fifth' ),
+					'uk-width-1-6@m' => __( 'One Sixth' )
 				]
 			])
 	);
@@ -172,7 +223,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 			])
 	);
 
-// NEW
+	// Container
 	$sections = explode( ',', get_theme_mod('sections') );
 	foreach ($sections as $value) {
 		$wp_customize->add_setting('sectionContainer-' . $value, [
@@ -196,6 +247,8 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 					]
 				])
 		);
+
+		// Layout
 		$wp_customize->add_setting('sectionLayout-' . $value, [
 			'default'    => 'uk-section',
 		]);
@@ -218,12 +271,109 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 		);
 	}
 	// Site Style Tab
-	$wp_customize->add_section('sitestyle', [
+	$wp_customize->add_section('siteStyle', [
 		'title' => 'Site Style',
 		'description' => 'On this tab you will customize how individual site elements stylings will appear.',
 		'priority' => 30,
 	]);
 
+	// Search Layout Option
+	$wp_customize->add_setting('searchStyle', [
+		'default'    => '3',
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'searchStyle',
+			[
+				'label'      => __( 'Search Style', 'u3' ),
+				'section'    => 'siteStyle',
+				'settings'   => 'searchStyle',
+				'type'       => 'select',
+				'description' => 'Choose the style of Search',
+				'choices'    => [
+					'0'	=> __( 'Box' ),
+					'1' => __( 'Dropdown' ),
+					'2' => __( 'Icon Fullscreen' ),
+					'3' => __( 'None (Default)' )
+				]
+			])
+	);
+
+	// Sidebar Styles
+	$wp_customize->add_setting('primaryStyle', [
+		'default'    => '',
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'primaryStyle',
+			[
+				'label'      => __( 'Primary Sidebar', 'u3' ),
+				'section'    => 'siteStyle',
+				'settings'   => 'primaryStyle',
+				'type'       => 'select',
+				'description' => 'Choose the style of Search',
+				'choices'    => [
+					'' => __( 'None' ),
+					' uk-section-muted' => __( 'Muted' ),
+					' uk-section-default' => __( 'Default' ),
+					' uk-section-primary' => __( 'Primary' ),
+					' uk-section-secondary' => __( 'Secondary' ),
+					' uk-section-tertiary' => __( 'Tertiary' ),
+				]
+			])
+	);
+
+	$wp_customize->add_setting('secondaryStyle', [
+		'default'    => '',
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'secondaryStyle',
+			[
+				'label'      => __( 'Secondary Sidebar', 'u3' ),
+				'section'    => 'siteStyle',
+				'settings'   => 'secondaryStyle',
+				'type'       => 'select',
+				'description' => 'Choose the style of Search',
+				'choices'    => [
+					'' => __( 'None' ),
+					' uk-section-muted' => __( 'Muted' ),
+					' uk-section-default' => __( 'Default' ),
+					' uk-section-primary' => __( 'Primary' ),
+					' uk-section-secondary' => __( 'Secondary' ),
+					' uk-section-tertiary' => __( 'Tertiary' ),
+				]
+			])
+	);
+
+	$wp_customize->add_setting('tertiaryStyle', [
+		'default'    => '',
+	]);
+	$wp_customize->add_control(
+		new \WP_Customize_Control(
+			$wp_customize,
+			'tertiaryStyle',
+			[
+				'label'      => __( 'Tertiary Sidebar', 'u3' ),
+				'section'    => 'siteStyle',
+				'settings'   => 'tertiaryStyle',
+				'type'       => 'select',
+				'description' => 'Choose the style of Search',
+				'choices'    => [
+					'' => __( 'None' ),
+					' uk-section-muted' => __( 'Muted' ),
+					' uk-section-default' => __( 'Default' ),
+					' uk-section-primary' => __( 'Primary' ),
+					' uk-section-secondary' => __( 'Secondary' ),
+					' uk-section-tertiary' => __( 'Tertiary' ),
+				]
+			])
+	);
+
+	// Widget Settings Styles
 	$sections = explode( ',', get_theme_mod('sections') );
 	foreach ($sections as $value) {
 		$wp_customize->add_setting('sectionStyle-' . $value, [
@@ -235,7 +385,7 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize) 
 				'sectionStyle-' . $value,
 				[
 					'label'      => __( ucfirst($value). ' Style', 'u3' ),
-					'section'    => 'sitestyle',
+					'section'    => 'siteStyle',
 					'settings'   => 'sectionStyle-' .$value,
 					'type'       => 'select',
 					'choices'    => [

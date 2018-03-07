@@ -1,0 +1,9 @@
+node_modules
+node_modules/*
+resources/assets/config.json
+resources/dist
+resources/dist/*
+vendor
+vendor/*
+.cache-loader
+.cache-loader/*

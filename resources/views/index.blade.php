@@ -69,7 +69,7 @@ $headerLayout = get_theme_mod('headerLayout');
 	</div>
 </header>
 @else
-<p>No</p>
+
 @endif
 @endsection
 
