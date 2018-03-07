@@ -9,3 +9,4 @@ vendor/*
 .cache-loader/*
 package-lock.json
 composer.lock
+yarn.lock
